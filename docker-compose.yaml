@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: db-pass
+  example-postgresql:
+    build: .
+    ports:
+      - "8000:8000"
+    links:
+      - "db"
+    environment:
+      CONFIG_PROFILE: local-docker

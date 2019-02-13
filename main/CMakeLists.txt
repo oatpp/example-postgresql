@@ -47,7 +47,7 @@ add_definitions(
 
 include(FindPkgConfig)
 
-set(ENV{PKG_CONFIG_PATH} "/usr/local/pgsql/lib/pkgconfig") ## change this if needed
+set(ENV{PKG_CONFIG_PATH} "/usr/local/pgsql/lib/pkgconfig:$ENV{PKG_CONFIG_PATH}") ## change this if needed
 
 pkg_check_modules(PKG_PQ REQUIRED libpq)
 

@@ -18,7 +18,7 @@ class ErrorDto : public oatpp::data::mapping::type::Object {
   
   DTO_INIT(ErrorDto, Object)
   
-  DTO_FIELD(String, service) = "user-service";
+  DTO_FIELD(String, service) = "example-postgresql: user-service";
   DTO_FIELD(Int32, code);
   DTO_FIELD(String, error);
   DTO_FIELD(String, message);

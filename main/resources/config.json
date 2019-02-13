@@ -10,7 +10,7 @@
   "local-docker": {
     "port": 8000,
     "swaggerHost": "localhost:8000",
-    "dbHost": "localhost",
+    "dbHost": "db",
     "dbUser": "postgres",
     "dbPass": "db-pass",
     "dbName": "postgres"

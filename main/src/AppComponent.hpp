@@ -16,7 +16,7 @@
 
 #include "oatpp/core/base/CommandLineArguments.hpp"
 
-#include <fstream>
+#include <cstdlib>
 
 class AppComponent {
 private:
@@ -39,7 +39,11 @@ public:
     if (configText) {
 
       auto profiles = objectMapper->readFromString<ConfigDto::Fields<ConfigDto::ObjectWrapper>>(configText);
-      const char* profileArg = m_cmdArgs.getNamedArgumentValue("--profile", "dev");
+
+      const char *profileArg = std::getenv("CONFIG_PROFILE"); // first read from env variable
+      if (profileArg == nullptr) {
+        profileArg = m_cmdArgs.getNamedArgumentValue("--profile", "dev"); // if no env varioable get from command line
+      }
 
       OATPP_LOGD("Server", "Loading configuration profile '%s'", profileArg);
 

@@ -30,7 +30,7 @@ const char* Database::DDL =
 
 const char* Database::SQL_INSERT_USER =
 "INSERT INTO EXAMPLE_USER "
-"(userId, login, password, email, authType) VALUES "
+"(userId, login, password, email) VALUES "
 "(uuid_generate_v4(), $1::varchar, $2::varchar, $3::varchar) "
 "RETURNING *;";
 
@@ -123,7 +123,7 @@ UserDto::ObjectWrapper Database::createUser(const UserDto::ObjectWrapper& user) 
   std::lock_guard<std::mutex> lock(m_mutex);
   tryReconnect();
   UserDto::ObjectWrapper createdUser;
-  const v_int32 paramsNumber = 4;
+  const v_int32 paramsNumber = 3;
   const char* params[paramsNumber] = {user->login->c_str(), user->password->c_str(), user->email->c_str()};
   ResultWrapper result = PQexecParams(m_connection, SQL_INSERT_USER, paramsNumber, nullptr, params, nullptr, nullptr, 0);
   if (checkResultOrThrow(result)) {

@@ -1,5 +1,7 @@
 FROM lganzzzo/alpine-cmake:latest
 
+RUN apk add postgresql-dev
+
 ADD . /service
 
 WORKDIR /service/build
