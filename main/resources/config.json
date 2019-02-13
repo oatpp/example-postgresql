@@ -1,0 +1,18 @@
+{
+  "dev": {
+    "port": 8000,
+    "swaggerHost": "localhost:8000",
+    "dbHost": "localhost",
+    "dbUser": "postgres",
+    "dbPass": "db-pass",
+    "dbName": "postgres"
+  },
+  "local-docker": {
+    "port": 8000,
+    "swaggerHost": "localhost:8000",
+    "dbHost": "localhost",
+    "dbUser": "postgres",
+    "dbPass": "db-pass",
+    "dbName": "postgres"
+  }
+}
