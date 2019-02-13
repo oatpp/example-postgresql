@@ -10,12 +10,13 @@ jobs:
     pool:
       vmImage: 'Ubuntu 16.04'
     container:
-      image: lganzzzo/ubuntu-cmake:latest
+      image: lganzzzo/ubuntu-cmake-postgresql:latest
     workspace:
       clean: all
     steps:
       - script: |
           mkdir build
+      - task: CMake@1
       - script: |
           cmake ..
           sudo make

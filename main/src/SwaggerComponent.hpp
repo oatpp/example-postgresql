@@ -28,9 +28,11 @@ public:
     oatpp::swagger::DocumentInfo::Builder builder;
     
     builder
-    .setTitle("File upload service")
-    .setDescription("Service which uploads files to S3-compatible storage")
+    .setTitle("Example: user-service")
+    .setDescription("Service which stores and reads user info to/from postgresql database")
     .setVersion("1.0")
+    .setContactName("Leonid Stryzhevskyi")
+    .setContactUrl("https://oatpp.io/")
     
     .addServer("http://localhost:" + oatpp::utils::conversion::int32ToStr(config->port), "server on localhost");
     
