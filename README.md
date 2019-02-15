@@ -1,6 +1,6 @@
 # example-postgresql [![Build Status](https://dev.azure.com/lganzzzo/lganzzzo/_apis/build/status/oatpp.example-postgresql?branchName=master)](https://dev.azure.com/lganzzzo/lganzzzo/_build/latest?definitionId=17&branchName=master)
 
-Example of a production grade entity service storing information in PostgreSQL. With Swagger-UI and configuration profiles. 
+Example of a production grade entity service storing information in PostgreSQL. With Swagger-UI and configuration profiles.  
 *Libpq is used to communicate with PostgreSQL database.*  
 *Dockerfile and docker-compose.yaml files included.*
 
