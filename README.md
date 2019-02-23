@@ -1,6 +1,6 @@
 # example-postgresql [![Build Status](https://dev.azure.com/lganzzzo/lganzzzo/_apis/build/status/oatpp.example-postgresql?branchName=master)](https://dev.azure.com/lganzzzo/lganzzzo/_build/latest?definitionId=17&branchName=master)
 
-Example of a production grade entity service with Swagger-UI and configuration profiles. Storing information in PostgreSQL.
+Example of a production grade entity service storing information in PostgreSQL. With Swagger-UI and configuration profiles.  
 *Libpq is used to communicate with PostgreSQL database.*  
 *Dockerfile and docker-compose.yaml files included.*
 
@@ -46,12 +46,14 @@ This project is using `oatpp` and `oatpp-swagger` modules.
 
 ---
 
-### Build and Run
+## Build and Run
 
-#### Using CMake
+### Using CMake
 
-*Requires libpq installed*
-Tip: To install libpq on Mac - `$ brew install libpq`. To install libpq on Linux-Alpine - `apk add postgresql-dev`
+**Requires libpq installed**. To install libpq:  
+- On Mac `$ brew install libpq`
+- On Alpine `$ apk add postgresql-dev`
+- On Ubuntu - goto [Install PostgreSQL Client From Sources](#install-postgresql-client-from-sources)
 
 ```
 $ mkdir build && cd build
@@ -61,16 +63,16 @@ $ make run        ## Download, build, and install all dependencies. Run project
 
 *PostgreSQL is expected running as for `dev` config profile*
 
-#### In Docker
+### In Docker
 
-##### Dockerfile
+#### Dockerfile
 
 ```
 $ docker build -t example-postgresql .
 $ docker run -p 8000:8000 -e CONFIG_PROFILE='dev' -t example-postgresql
 ```
 
-##### docker-compose
+#### docker-compose
 
 ```
 $ docker-compose up
@@ -78,12 +80,33 @@ $ docker-compose up
 
 *docker-compose will run service with `local-docker` config profile*
 
----
-
 ### After run
 
 Go to [http://localhost:8000/swagger/ui](http://localhost:8000/swagger/ui) to try endpoints.
 
----
+## Install PostgreSQL Client From Sources
 
-Enjoy
+- Download sources from [https://www.postgresql.org/ftp/source/](https://www.postgresql.org/ftp/source/)
+   ```
+   $ wget https://ftp.postgresql.org/pub/source/v11.1/postgresql-11.1.tar.gz
+   ```
+   
+- Untar
+   ```
+   $ tar -xvzf postgresql-11.1.tar.gz
+   ```
+
+- CD to postgresql-11.1, configure, make:
+   ```
+   $ cd postgresql-11.1
+   $ ./configure
+   $ make
+   ```
+- Install PostgreSQL client-only  
+   *For this particular example we don't need full PostgreSQL installation.* 
+   ```
+   $ make -C src/include install 
+   $ make -C src/interfaces install
+   ```
+
+For more information see [PostgreSQL installation guide](https://www.postgresql.org/docs/11/install-procedure.html#INSTALL)
