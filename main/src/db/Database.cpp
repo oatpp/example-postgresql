@@ -44,9 +44,9 @@ Database::Database(const oatpp::String& dbHost,
                    const oatpp::String& dbName)
   : m_connection(nullptr)
 {
-  auto stream = oatpp::data::stream::ChunkedBuffer::createShared();
+  oatpp::data::stream::ChunkedBuffer stream;
   stream << "host=" << dbHost << " user=" << dbUser << " password=" << dbPassword << " dbname=" << dbName;
-  m_connectionString = stream->toString();
+  m_connectionString = stream.toString();
 }
 
 Database::~Database() {
