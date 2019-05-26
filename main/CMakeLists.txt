@@ -9,7 +9,6 @@ set(CMAKE_CXX_STANDARD 11)
 add_library(${project_name}-lib
         src/App.cpp
         src/AppComponent.hpp
-        src/Logger.hpp
         src/ServiceComponent.hpp
         src/SwaggerComponent.hpp
         src/controller/UserController.cpp

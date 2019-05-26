@@ -10,7 +10,6 @@
 #include "./AppComponent.hpp"
 #include "./ServiceComponent.hpp"
 #include "./SwaggerComponent.hpp"
-#include "./Logger.hpp"
 
 #include "oatpp/network/server/Server.hpp"
 
@@ -59,13 +58,10 @@ void run(const oatpp::base::CommandLineArguments& args) {
  *  main
  */
 int main(int argc, const char * argv[]) {
-  
-  oatpp::base::Environment::setLogger(new Logger());
+
   oatpp::base::Environment::init();
 
   run(oatpp::base::CommandLineArguments(argc, argv));
-
-  oatpp::base::Environment::setLogger(nullptr); ///< free Logger
 
   /* Print how much objects were created during app running, and what have left-probably leaked */
   /* Disable object counting for release builds using '-D OATPP_DISABLE_ENV_OBJECT_COUNTERS' flag for better performance */
