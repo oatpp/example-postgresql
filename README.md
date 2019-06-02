@@ -5,30 +5,26 @@ Example of a production grade entity service storing information in PostgreSQL. 
 *Dockerfile and docker-compose.yaml files included.*
 
 #### More about oat++:
+
 - Website: [https://oatpp.io](https://oatpp.io)
 - Docs: [https://oatpp.io/docs/start](https://oatpp.io/docs/start)
 - Oat++ Repo: [https://github.com/oatpp/oatpp](https://github.com/oatpp/oatpp)
 
 ## Overview
+
 This project is using `oatpp` and `oatpp-swagger` modules.
 
 ### Project layout
 
 ```
 
-|- CMakeLists.txt               // project loader script. load and build dependencies 
-|- main/                        // main project directory
-|    |
-|    |- CMakeLists.txt          // project's CMakeLists.txt
-|    |- src/                    // source folder
-|    |- test/                   // test folder
-|    |- resources/
-|         |
-|         |- config.json        // configuration file with configuration profiles
-|
-|- Dockerfile                   // Dockerfile
-|- docker-compose.yaml          // Docker-compose with this service and postgresql
-
+- CMakeLists.txt                        // projects CMakeLists.txt
+- src/                                  // source folder
+- test/                                 // test folder
+- utility/install-oatpp-modules.sh      // utility script to install required oatpp-modules.
+- resources/config.json                 // configuration file with configuration profiles
+- Dockerfile                            // Dockerfile
+- docker-compose.yaml                   // Docker-compose with this service and postgresql
 ```
 ```
 - src/
@@ -50,15 +46,21 @@ This project is using `oatpp` and `oatpp-swagger` modules.
 
 ### Using CMake
 
-**Requires libpq installed**. To install libpq:  
-- On Mac `$ brew install libpq`
-- On Alpine `$ apk add postgresql-dev`
-- On Ubuntu - goto [Install PostgreSQL Client From Sources](#install-postgresql-client-from-sources)
+**Requires** 
+
+- libpq installed. To install libpq:  
+   - On Mac `$ brew install libpq`
+   - On Alpine `$ apk add postgresql-dev`
+   - On Ubuntu - goto [Install PostgreSQL Client From Sources](#install-postgresql-client-from-sources)
+   
+- `oatpp` and `oatpp-swagger` modules installed. You may run `utility/install-oatpp-modules.sh` 
+script to install required oatpp modules.   
 
 ```
 $ mkdir build && cd build
 $ cmake ..
-$ make run        ## Download, build, and install all dependencies. Run project
+$ make 
+$ ./example-postgresql-exe  # - run application.
 ```
 
 *PostgreSQL is expected running as for `dev` config profile*

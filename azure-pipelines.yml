@@ -15,8 +15,11 @@ jobs:
       clean: all
     steps:
       - script: |
+          sudo ./install-oatpp-modules.sh
+        displayName: 'install oatpp modules'
+        workingDirectory: utility
+      - script: |
           mkdir build
-      - task: CMake@1
       - script: |
           cmake ..
           sudo make
