@@ -4,40 +4,35 @@ Example of a production grade entity service storing information in PostgreSQL. 
 *Libpq is used to communicate with PostgreSQL database.*  
 *Dockerfile and docker-compose.yaml files included.*
 
-#### More about oat++:
+See more:
 
-- Website: [https://oatpp.io](https://oatpp.io)
-- Docs: [https://oatpp.io/docs/start](https://oatpp.io/docs/start)
-- Oat++ Repo: [https://github.com/oatpp/oatpp](https://github.com/oatpp/oatpp)
+- [Oat++ Website](https://oatpp.io/)
+- [Oat++ Github Repository](https://github.com/oatpp/oatpp)
+- [Get Started](https://oatpp.io/docs/start)
 
 ## Overview
 
-This project is using `oatpp` and `oatpp-swagger` modules.
+This project is using [oatpp](https://github.com/oatpp/oatpp) and [oatpp-swagger](https://github.com/oatpp/oatpp-swagger) modules.
 
 ### Project layout
 
 ```
-
-- CMakeLists.txt                        // projects CMakeLists.txt
-- src/                                  // source folder
-- test/                                 // test folder
-- utility/install-oatpp-modules.sh      // utility script to install required oatpp-modules.
-- resources/config.json                 // configuration file with configuration profiles
-- Dockerfile                            // Dockerfile
-- docker-compose.yaml                   // Docker-compose with this service and postgresql
-```
-```
-- src/
-    |
-    |- controller/              // Folder containing Controller where all endpoints are declared
-    |- db/                      // Database class is here 
-    |- dto/                     // DTOs are declared here
-    |- ServiceComponent.hpp     // Service configuration (port, ObjectMapper, Database)
-    |- SwaggerComponent.hpp     // Configuration for swagger-ui
-    |- AppComponent.hpp         // Service configuration is loaded here
-    |- Logger.hpp               // Application Logger
-    |- App.cpp                  // main() is here
-    
+|- CMakeLists.txt                        // projects CMakeLists.txt
+|- src/
+|    |
+|    |- controller/                      // Folder containing Controller where all endpoints are declared
+|    |- db/                              // Database class is here 
+|    |- dto/                             // DTOs are declared here
+|    |- ServiceComponent.hpp             // Service configuration (port, ObjectMapper, Database)
+|    |- SwaggerComponent.hpp             // Configuration for swagger-ui
+|    |- AppComponent.hpp                 // Service configuration is loaded here
+|    |- App.cpp                          // main() is here
+|    
+|- test/                                 // test folder
+|- utility/install-oatpp-modules.sh      // utility script to install required oatpp-modules.
+|- resources/config.json                 // configuration file with configuration profiles
+|- Dockerfile                            // Dockerfile
+|- docker-compose.yaml                   // Docker-compose with this service and postgresql
 ```
 
 ---
