@@ -28,7 +28,7 @@ public:
   public:
     typedef oatpp::web::protocol::http::outgoing::Response OutgoingResponse;
     typedef oatpp::web::protocol::http::Status Status;
-    typedef oatpp::web::protocol::http::outgoing::ResponseFactory OutgoingResponseFactory;
+    typedef oatpp::web::protocol::http::outgoing::ResponseFactory ResponseFactory;
   private:
     std::shared_ptr<oatpp::data::mapping::ObjectMapper> m_objectMapper;
   public:
@@ -45,7 +45,7 @@ public:
       error->code = 500;
       error->error = "Unhandled Error";
       error->message = message;
-      return OutgoingResponseFactory::createShared(Status::CODE_500, error, m_objectMapper.get());
+      return ResponseFactory::createResponse(Status::CODE_500, error, m_objectMapper.get());
     }
     
   };
