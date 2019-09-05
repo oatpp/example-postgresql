@@ -40,12 +40,20 @@ public:
     OATPP_COMPONENT(std::shared_ptr<oatpp::data::mapping::ObjectMapper>, objectMapper);
     
     
-    std::shared_ptr<OutgoingResponse> handleError(const Status& status, const oatpp::String& message) override {
+    std::shared_ptr<OutgoingResponse> handleError(const Status& status, const oatpp::String& message, const Headers& headers) override {
+
       auto error = ErrorDto::createShared();
       error->code = 500;
       error->error = "Unhandled Error";
       error->message = message;
-      return ResponseFactory::createResponse(Status::CODE_500, error, m_objectMapper.get());
+
+      auto response = ResponseFactory::createResponse(Status::CODE_500, error, m_objectMapper.get());
+
+      for(auto& pair : headers) {
+        response->putHeader(pair.first, pair.second);
+      }
+
+      return response;
     }
     
   };
