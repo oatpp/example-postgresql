@@ -49,11 +49,12 @@ public:
 
       auto response = ResponseFactory::createResponse(Status::CODE_500, error, m_objectMapper.get());
 
-      for(auto& pair : headers) {
+      for(const auto& pair : headers.getAll()) {
         response->putHeader(pair.first, pair.second);
       }
 
       return response;
+
     }
     
   };
