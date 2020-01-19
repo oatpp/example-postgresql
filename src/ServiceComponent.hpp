@@ -47,7 +47,7 @@ public:
       error->error = "Unhandled Error";
       error->message = message;
 
-      auto response = ResponseFactory::createResponse(Status::CODE_500, error, m_objectMapper.get());
+      auto response = ResponseFactory::createResponse(Status::CODE_500, error, m_objectMapper);
 
       for(const auto& pair : headers.getAll()) {
         response->putHeader(pair.first, pair.second);
