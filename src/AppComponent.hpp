@@ -1,10 +1,3 @@
-//
-//  AppComponent.hpp
-//  file-service
-//
-//  Created by Leonid on 8/13/18.
-//  Copyright © 2018 oatpp. All rights reserved.
-//
 
 #ifndef AppComponent_hpp
 #define AppComponent_hpp

@@ -1,11 +1,3 @@
-//
-//  UserController.cpp
-//  user-service
-//
-//  Created by Leonid on 12/21/18.
-//  Copyright © 2018 lganzzzo. All rights reserved.
-//
-
 #include "UserController.hpp"
 
 #include <stdio.h>

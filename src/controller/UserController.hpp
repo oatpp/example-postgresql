@@ -1,11 +1,3 @@
-//
-//  UserController.hpp
-//  web-starter-project
-//
-//  Created by Leonid on 2/12/18.
-//  Copyright © 2018 oatpp. All rights reserved.
-//
-
 #ifndef UserController_hpp
 #define UserController_hpp
 
@@ -23,6 +15,8 @@
 
 #include <iostream>
 #include <fstream>
+
+#include OATPP_CODEGEN_BEGIN(ApiController) //<-- codegen begin
 
 /**
  *  EXAMPLE ApiController
@@ -52,19 +46,14 @@ public:
     return std::shared_ptr<UserController>(new UserController(objectMapper));
   }
   
-  /**
-   *  Begin ENDPOINTs generation ('ApiController' codegen)
-   */
-#include OATPP_CODEGEN_BEGIN(ApiController)
-  
   ENDPOINT_INFO(createUser) {
     info->summary = "Create new User";
-    info->addConsumes<UserDto::ObjectWrapper>("application/json");
-    info->addResponse<UserDto::ObjectWrapper>(Status::CODE_200, "application/json");
-    info->addResponse<ErrorDto::ObjectWrapper>(Status::CODE_500, "application/json");
+    info->addConsumes<UserDto>("application/json");
+    info->addResponse<UserDto>(Status::CODE_200, "application/json");
+    info->addResponse<ErrorDto>(Status::CODE_500, "application/json");
   }
   ENDPOINT("POST", "/users", createUser,
-           BODY_DTO(UserDto::ObjectWrapper, user)) {
+           BODY_DTO(UserDto, user)) {
     assertLogin(user->login);
     assertEmail(user->email);
     assertPassword(user->password);
@@ -76,8 +65,8 @@ public:
   
   ENDPOINT_INFO(getUserByUid) {
     info->summary = "Get user by UID";
-    info->addResponse<UserDto::ObjectWrapper>(Status::CODE_200, "application/json");
-    info->addResponse<ErrorDto::ObjectWrapper>(Status::CODE_500, "application/json");
+    info->addResponse<UserDto>(Status::CODE_200, "application/json");
+    info->addResponse<ErrorDto>(Status::CODE_500, "application/json");
   }
   ENDPOINT("GET", "/users/uid/{userId}", getUserByUid,
            PATH(String, userId)) {
@@ -90,8 +79,8 @@ public:
   
   ENDPOINT_INFO(getUserByLogin) {
     info->summary = "Get user by Login";
-    info->addResponse<UserDto::ObjectWrapper>(Status::CODE_200, "application/json");
-    info->addResponse<ErrorDto::ObjectWrapper>(Status::CODE_500, "application/json");
+    info->addResponse<UserDto>(Status::CODE_200, "application/json");
+    info->addResponse<ErrorDto>(Status::CODE_500, "application/json");
   }
   ENDPOINT("GET", "/users/login/{login}", getUserByLogin,
            PATH(String, login)) {
@@ -104,8 +93,8 @@ public:
   
   ENDPOINT_INFO(getUserByEmail) {
     info->summary = "Get user by Email";
-    info->addResponse<UserDto::ObjectWrapper>(Status::CODE_200, "application/json");
-    info->addResponse<ErrorDto::ObjectWrapper>(Status::CODE_500, "application/json");
+    info->addResponse<UserDto>(Status::CODE_200, "application/json");
+    info->addResponse<ErrorDto>(Status::CODE_500, "application/json");
   }
   ENDPOINT("GET", "/users/email/{email}", getUserByEmail,
            PATH(String, email)) {
@@ -116,11 +105,9 @@ public:
   }
   
   // TODO Insert Your endpoints here !!!
-  
-  /**
-   *  Finish ENDPOINTs generation ('ApiController' codegen)
-   */
-#include OATPP_CODEGEN_END(ApiController)
+
 };
+
+#include OATPP_CODEGEN_END(ApiController) //<-- codegen end
 
 #endif /* UserController_hpp */

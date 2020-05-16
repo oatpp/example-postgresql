@@ -1,20 +1,13 @@
-//
-//  ErrorDto.hpp
-//  file-service
-//
-//  Created by Leonid on 8/13/18.
-//  Copyright © 2018 oatpp. All rights reserved.
-//
 
 #ifndef ErrorDto_hpp
 #define ErrorDto_hpp
 
-#include "oatpp/core/data/mapping/type/Object.hpp"
+#include "oatpp/core/Types.hpp"
 #include "oatpp/core/macro/codegen.hpp"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-class ErrorDto : public oatpp::data::mapping::type::Object {
+class ErrorDto : public oatpp::Object {
   
   DTO_INIT(ErrorDto, Object)
   

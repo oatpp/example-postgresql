@@ -24,8 +24,8 @@ target_include_directories(${project_name}-lib PUBLIC src)
 
 ## link libs
 
-find_package(oatpp          1.0.0 REQUIRED)
-find_package(oatpp-swagger  1.0.0 REQUIRED)
+find_package(oatpp          1.1.0 REQUIRED)
+find_package(oatpp-swagger  1.1.0 REQUIRED)
 
 target_link_libraries(${project_name}-lib
         PUBLIC oatpp::oatpp

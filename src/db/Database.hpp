@@ -1,10 +1,3 @@
-//
-//  Database.hpp
-//  user-service
-//
-//  Created by Leonid on 12/20/18.
-//  Copyright © 2018 lganzzzo. All rights reserved.
-//
 
 #ifndef Database_hpp
 #define Database_hpp
