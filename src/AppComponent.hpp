@@ -31,7 +31,7 @@ public:
     oatpp::String configText = oatpp::base::StrBuffer::loadFromFile(configPath);
     if (configText) {
 
-      auto profiles = objectMapper->readFromString<ConfigDto::Fields<ConfigDto::ObjectWrapper>>(configText);
+      auto profiles = objectMapper->readFromString<oatpp::Fields<ConfigDto>>(configText);
 
       const char *profileArg = std::getenv("CONFIG_PROFILE"); // first read from env variable
       if (profileArg == nullptr) {
@@ -40,7 +40,7 @@ public:
 
       OATPP_LOGD("Server", "Loading configuration profile '%s'", profileArg);
 
-      auto profile = profiles->get(profileArg, nullptr);
+      auto profile = profiles.getValueByKey(profileArg, nullptr);
       if(!profile) {
         throw std::runtime_error("No configuration profile found. Server won't run.");
       }
