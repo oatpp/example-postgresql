@@ -31,7 +31,7 @@ public:
     oatpp::String configText = oatpp::base::StrBuffer::loadFromFile(configPath);
     if (configText) {
 
-      auto profiles = objectMapper->readFromString<oatpp::Fields<ConfigDto>>(configText);
+      auto profiles = objectMapper->readFromString<oatpp::Fields<oatpp::Object<ConfigDto>>>(configText);
 
       const char *profileArg = std::getenv("CONFIG_PROFILE"); // first read from env variable
       if (profileArg == nullptr) {
