@@ -29,7 +29,7 @@ protected:
     : oatpp::web::server::api::ApiController(objectMapper)
   {}
 private:
-  OATPP_COMPONENT(ConfigDto::ObjectWrapper, config); // Inject config
+  OATPP_COMPONENT(oatpp::Object<ConfigDto>, config); // Inject config
   OATPP_COMPONENT(std::shared_ptr<Database>, database); // Inject database
 private:
   void assertUid(const oatpp::String& uid);
@@ -48,12 +48,12 @@ public:
   
   ENDPOINT_INFO(createUser) {
     info->summary = "Create new User";
-    info->addConsumes<UserDto>("application/json");
-    info->addResponse<UserDto>(Status::CODE_200, "application/json");
-    info->addResponse<ErrorDto>(Status::CODE_500, "application/json");
+    info->addConsumes<oatpp::Object<UserDto>>("application/json");
+    info->addResponse<oatpp::Object<UserDto>>(Status::CODE_200, "application/json");
+    info->addResponse<oatpp::Object<ErrorDto>>(Status::CODE_500, "application/json");
   }
   ENDPOINT("POST", "/users", createUser,
-           BODY_DTO(UserDto, user)) {
+           BODY_DTO(Object<UserDto>, user)) {
     assertLogin(user->login);
     assertEmail(user->email);
     assertPassword(user->password);
@@ -65,8 +65,8 @@ public:
   
   ENDPOINT_INFO(getUserByUid) {
     info->summary = "Get user by UID";
-    info->addResponse<UserDto>(Status::CODE_200, "application/json");
-    info->addResponse<ErrorDto>(Status::CODE_500, "application/json");
+    info->addResponse<oatpp::Object<UserDto>>(Status::CODE_200, "application/json");
+    info->addResponse<oatpp::Object<ErrorDto>>(Status::CODE_500, "application/json");
   }
   ENDPOINT("GET", "/users/uid/{userId}", getUserByUid,
            PATH(String, userId)) {
@@ -79,8 +79,8 @@ public:
   
   ENDPOINT_INFO(getUserByLogin) {
     info->summary = "Get user by Login";
-    info->addResponse<UserDto>(Status::CODE_200, "application/json");
-    info->addResponse<ErrorDto>(Status::CODE_500, "application/json");
+    info->addResponse<oatpp::Object<UserDto>>(Status::CODE_200, "application/json");
+    info->addResponse<oatpp::Object<ErrorDto>>(Status::CODE_500, "application/json");
   }
   ENDPOINT("GET", "/users/login/{login}", getUserByLogin,
            PATH(String, login)) {
@@ -93,8 +93,8 @@ public:
   
   ENDPOINT_INFO(getUserByEmail) {
     info->summary = "Get user by Email";
-    info->addResponse<UserDto>(Status::CODE_200, "application/json");
-    info->addResponse<ErrorDto>(Status::CODE_500, "application/json");
+    info->addResponse<oatpp::Object<UserDto>>(Status::CODE_200, "application/json");
+    info->addResponse<oatpp::Object<ErrorDto>>(Status::CODE_500, "application/json");
   }
   ENDPOINT("GET", "/users/email/{email}", getUserByEmail,
            PATH(String, email)) {

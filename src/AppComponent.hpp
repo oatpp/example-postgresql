@@ -23,7 +23,7 @@ public:
   /**
    * This should be configured through config-server ex. Consul
    */
-  OATPP_CREATE_COMPONENT(ConfigDto::ObjectWrapper, config)([this] {
+  OATPP_CREATE_COMPONENT(oatpp::Object<ConfigDto>, config)([this] {
 
     const char* configPath = CONFIG_PATH;
     auto objectMapper = oatpp::parser::json::mapping::ObjectMapper::createShared();

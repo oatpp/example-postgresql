@@ -65,7 +65,7 @@ public:
    *  Create ConnectionProvider component which listens on the port
    */
   OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::network::ServerConnectionProvider>, serverConnectionProvider)([] {
-    OATPP_COMPONENT(ConfigDto::ObjectWrapper, config); // Get config component
+    OATPP_COMPONENT(oatpp::Object<ConfigDto>, config); // Get config component
     return oatpp::network::server::SimpleTCPConnectionProvider::createShared(config->port);
   }());
   
@@ -88,7 +88,7 @@ public:
   }());
   
   OATPP_CREATE_COMPONENT(std::shared_ptr<Database>, database)([] {
-    OATPP_COMPONENT(ConfigDto::ObjectWrapper, config); // Get config component
+    OATPP_COMPONENT(oatpp::Object<ConfigDto>, config); // Get config component
     auto db = std::make_shared<Database>(config->dbHost, config->dbUser, config->dbPass, config->dbName);
     db->connect();
     db->init();

@@ -7,9 +7,9 @@
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-class UserDto : public oatpp::Object {
+class UserDto : public oatpp::DTO {
   
-  DTO_INIT(UserDto, Object)
+  DTO_INIT(UserDto, DTO)
   
   DTO_FIELD(String, userId);
   DTO_FIELD(String, login);

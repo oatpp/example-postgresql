@@ -71,7 +71,7 @@ void Database::tryReconnect() {
   }
 }
 
-UserDto::ObjectWrapper Database::readUserFromResult(const ResultWrapper& result, v_int32 index) {
+oatpp::Object<UserDto> Database::readUserFromResult(const ResultWrapper& result, v_int32 index) {
   
   auto cuserId = PQfnumber(result.get(), "userId");
   auto clogin = PQfnumber(result.get(), "login");
@@ -112,10 +112,10 @@ bool Database::checkResultOrThrow(const ResultWrapper& result) {
   }
 }
 
-UserDto::ObjectWrapper Database::createUser(const UserDto::ObjectWrapper& user) {
+oatpp::Object<UserDto> Database::createUser(const oatpp::Object<UserDto>& user) {
   std::lock_guard<std::mutex> lock(m_mutex);
   tryReconnect();
-  UserDto::ObjectWrapper createdUser;
+  oatpp::Object<UserDto> createdUser;
   const v_int32 paramsNumber = 3;
   const char* params[paramsNumber] = {user->login->c_str(), user->password->c_str(), user->email->c_str()};
   ResultWrapper result = PQexecParams(m_connection, SQL_INSERT_USER, paramsNumber, nullptr, params, nullptr, nullptr, 0);
@@ -127,10 +127,10 @@ UserDto::ObjectWrapper Database::createUser(const UserDto::ObjectWrapper& user) 
   return createdUser;
 }
 
-UserDto::ObjectWrapper Database::getUserByUid(const oatpp::String& uid) {
+oatpp::Object<UserDto> Database::getUserByUid(const oatpp::String& uid) {
   std::lock_guard<std::mutex> lock(m_mutex);
   tryReconnect();
-  UserDto::ObjectWrapper user;
+  oatpp::Object<UserDto> user;
   const char* params[1] = {uid->c_str()};
   ResultWrapper result = PQexecParams(m_connection, SQL_SELECT_USER_BY_USERID, 1, nullptr, params, nullptr, nullptr, 0);
   if (checkResultOrThrow(result)) {
@@ -141,10 +141,10 @@ UserDto::ObjectWrapper Database::getUserByUid(const oatpp::String& uid) {
   return user;
 }
 
-UserDto::ObjectWrapper Database::getUserByLogin(const oatpp::String& login) {
+oatpp::Object<UserDto> Database::getUserByLogin(const oatpp::String& login) {
   std::lock_guard<std::mutex> lock(m_mutex);
   tryReconnect();
-  UserDto::ObjectWrapper user;
+  oatpp::Object<UserDto> user;
   const char* params[1] = {login->c_str()};
   ResultWrapper result = PQexecParams(m_connection, SQL_SELECT_USER_BY_LOGIN, 1, nullptr, params, nullptr, nullptr, 0);
   if (checkResultOrThrow(result)) {
@@ -155,10 +155,10 @@ UserDto::ObjectWrapper Database::getUserByLogin(const oatpp::String& login) {
   return user;
 }
 
-UserDto::ObjectWrapper Database::getUserByEmail(const oatpp::String& email) {
+oatpp::Object<UserDto> Database::getUserByEmail(const oatpp::String& email) {
   std::lock_guard<std::mutex> lock(m_mutex);
   tryReconnect();
-  UserDto::ObjectWrapper user;
+  oatpp::Object<UserDto> user;
   const char* params[1] = {email->c_str()};
   ResultWrapper result = PQexecParams(m_connection, SQL_SELECT_USER_BY_EMAIL, 1, nullptr, params, nullptr, nullptr, 0);
   if (checkResultOrThrow(result)) {

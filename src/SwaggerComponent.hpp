@@ -16,7 +16,7 @@ public:
    *  General API docs info
    */
   OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::swagger::DocumentInfo>, swaggerDocumentInfo)([] {
-    OATPP_COMPONENT(ConfigDto::ObjectWrapper, config); // Get config component
+    OATPP_COMPONENT(oatpp::Object<ConfigDto>, config); // Get config component
     
     oatpp::swagger::DocumentInfo::Builder builder;
     

@@ -45,7 +45,7 @@ private:
   std::mutex m_mutex;
 private:
   void tryReconnect();
-  UserDto::ObjectWrapper readUserFromResult(const ResultWrapper& result, v_int32 index);
+  oatpp::Object<UserDto> readUserFromResult(const ResultWrapper& result, v_int32 index);
   bool checkResultOrThrow(const ResultWrapper& result);
 public:
   void connect();
@@ -61,11 +61,11 @@ public:
   
   void init();
   
-  UserDto::ObjectWrapper createUser(const UserDto::ObjectWrapper& user);
+  oatpp::Object<UserDto> createUser(const oatpp::Object<UserDto>& user);
   
-  UserDto::ObjectWrapper getUserByUid(const oatpp::String& uid);
-  UserDto::ObjectWrapper getUserByLogin(const oatpp::String& login);
-  UserDto::ObjectWrapper getUserByEmail(const oatpp::String& email);
+  oatpp::Object<UserDto> getUserByUid(const oatpp::String& uid);
+  oatpp::Object<UserDto> getUserByLogin(const oatpp::String& login);
+  oatpp::Object<UserDto> getUserByEmail(const oatpp::String& email);
   
 };
 
