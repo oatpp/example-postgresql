@@ -7,9 +7,9 @@
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-class ConfigDto : public oatpp::Object {
+class ConfigDto : public oatpp::DTO {
   
-  DTO_INIT(ConfigDto, Object)
+  DTO_INIT(ConfigDto, DTO)
   
   DTO_FIELD(Int32, port);
   DTO_FIELD(String, swaggerHost);

@@ -7,9 +7,9 @@
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-class ErrorDto : public oatpp::Object {
+class ErrorDto : public oatpp::DTO {
   
-  DTO_INIT(ErrorDto, Object)
+  DTO_INIT(ErrorDto, DTO)
   
   DTO_FIELD(String, service) = "example-postgresql: user-service";
   DTO_FIELD(Int32, code);
