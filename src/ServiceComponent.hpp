@@ -8,7 +8,7 @@
 
 #include "oatpp/web/server/HttpConnectionHandler.hpp"
 #include "oatpp/web/server/HttpRouter.hpp"
-#include "oatpp/network/server/SimpleTCPConnectionProvider.hpp"
+#include "oatpp/network/tcp/server/ConnectionProvider.hpp"
 
 #include "oatpp/parser/json/mapping/ObjectMapper.hpp"
 
@@ -43,7 +43,7 @@ public:
       auto response = ResponseFactory::createResponse(Status::CODE_500, error, m_objectMapper);
 
       for(const auto& pair : headers.getAll()) {
-        response->putHeader(pair.first, pair.second);
+        response->putHeader(pair.first.toString(), pair.second.toString());
       }
 
       return response;
@@ -66,7 +66,7 @@ public:
    */
   OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::network::ServerConnectionProvider>, serverConnectionProvider)([] {
     OATPP_COMPONENT(oatpp::Object<ConfigDto>, config); // Get config component
-    return oatpp::network::server::SimpleTCPConnectionProvider::createShared(config->port);
+    return oatpp::network::tcp::server::ConnectionProvider::createShared({"localhost", config->port});
   }());
   
   /**
@@ -79,7 +79,7 @@ public:
   /**
    *  Create ConnectionHandler component which uses Router component to route requests
    */
-  OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::network::server::ConnectionHandler>, serverConnectionHandler)([] {
+  OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::network::ConnectionHandler>, serverConnectionHandler)([] {
     OATPP_COMPONENT(std::shared_ptr<oatpp::web::server::HttpRouter>, router); // get Router component
     OATPP_COMPONENT(std::shared_ptr<oatpp::data::mapping::ObjectMapper>, objectMapper); // get ObjectMapper component
     auto connectionHandler = oatpp::web::server::HttpConnectionHandler::createShared(router);

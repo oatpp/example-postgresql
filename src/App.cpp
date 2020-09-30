@@ -4,7 +4,7 @@
 #include "./ServiceComponent.hpp"
 #include "./SwaggerComponent.hpp"
 
-#include "oatpp/network/server/Server.hpp"
+#include "oatpp/network/Server.hpp"
 
 #include "oatpp-swagger/Controller.hpp"
 
@@ -38,8 +38,8 @@ void run(const oatpp::base::CommandLineArguments& args) {
 
   /* create server */
 
-  oatpp::network::server::Server server(serviceComponent.serverConnectionProvider.getObject(),
-                                        serviceComponent.serverConnectionHandler.getObject());
+  oatpp::network::Server server(serviceComponent.serverConnectionProvider.getObject(),
+                                serviceComponent.serverConnectionHandler.getObject());
 
   OATPP_LOGD("Server", "Running on port %s...", serviceComponent.serverConnectionProvider.getObject()->getProperty("port").toString()->c_str());
 
