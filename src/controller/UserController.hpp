@@ -1,113 +1,115 @@
+
 #ifndef UserController_hpp
 #define UserController_hpp
 
-#include "db/Database.hpp"
-
-#include "dto/ErrorDto.hpp"
-#include "dto/ConfigDto.hpp"
-
-#include "oatpp-swagger/Types.hpp"
+#include "service/UserService.hpp"
 
 #include "oatpp/web/server/api/ApiController.hpp"
 #include "oatpp/parser/json/mapping/ObjectMapper.hpp"
 #include "oatpp/core/macro/codegen.hpp"
-#include "oatpp/core/macro/component.hpp"
 
-#include <iostream>
-#include <fstream>
-
-#include OATPP_CODEGEN_BEGIN(ApiController) //<-- codegen begin
+#include OATPP_CODEGEN_BEGIN(ApiController) //<- Begin Codegen
 
 /**
- *  EXAMPLE ApiController
- *  Basic examples of howto create ENDPOINTs
- *  More details on oatpp.io
+ * User REST controller.
  */
 class UserController : public oatpp::web::server::api::ApiController {
-protected:
+public:
   UserController(const std::shared_ptr<ObjectMapper>& objectMapper)
     : oatpp::web::server::api::ApiController(objectMapper)
   {}
 private:
-  OATPP_COMPONENT(oatpp::Object<ConfigDto>, config); // Inject config
-  OATPP_COMPONENT(std::shared_ptr<Database>, database); // Inject database
-private:
-  void assertUid(const oatpp::String& uid);
-  void assertLogin(const oatpp::String& login);
-  void assertEmail(const oatpp::String& email);
-  void assertPassword(const oatpp::String& password);
+  UserService m_userService; // Create user service.
 public:
-  
-  /**
-   *  Inject @objectMapper component here as default parameter
-   *  Do not return bare Controllable* object! use shared_ptr!
-   */
-  static std::shared_ptr<UserController> createShared(OATPP_COMPONENT(std::shared_ptr<ObjectMapper>, objectMapper)){
-    return std::shared_ptr<UserController>(new UserController(objectMapper));
+
+  static std::shared_ptr<UserController> createShared(
+    OATPP_COMPONENT(std::shared_ptr<ObjectMapper>, objectMapper) // Inject objectMapper component here as default parameter
+  ){
+    return std::make_shared<UserController>(objectMapper);
   }
   
   ENDPOINT_INFO(createUser) {
     info->summary = "Create new User";
-    info->addConsumes<oatpp::Object<UserDto>>("application/json");
-    info->addResponse<oatpp::Object<UserDto>>(Status::CODE_200, "application/json");
-    info->addResponse<oatpp::Object<ErrorDto>>(Status::CODE_500, "application/json");
+
+    info->addConsumes<Object<UserDto>>("application/json");
+
+    info->addResponse<Object<UserDto>>(Status::CODE_200, "application/json");
+    info->addResponse<Object<StatusDto>>(Status::CODE_500, "application/json");
+    info->addResponse<Object<StatusDto>>(Status::CODE_500, "application/json");
   }
-  ENDPOINT("POST", "/users", createUser,
-           BODY_DTO(Object<UserDto>, user)) {
-    assertLogin(user->login);
-    assertEmail(user->email);
-    assertPassword(user->password);
-    auto createdUser = database->createUser(user);
-    OATPP_ASSERT_HTTP(createdUser, Status::CODE_500, "User was not created");
-    return createDtoResponse(Status::CODE_200, createdUser);
-  }
-  
-  
-  ENDPOINT_INFO(getUserByUid) {
-    info->summary = "Get user by UID";
-    info->addResponse<oatpp::Object<UserDto>>(Status::CODE_200, "application/json");
-    info->addResponse<oatpp::Object<ErrorDto>>(Status::CODE_500, "application/json");
-  }
-  ENDPOINT("GET", "/users/uid/{userId}", getUserByUid,
-           PATH(String, userId)) {
-    assertUid(userId);
-    auto user = database->getUserByUid(userId);
-    OATPP_ASSERT_HTTP(user, Status::CODE_404, "User not found");
-    return createDtoResponse(Status::CODE_200, user);
+  ENDPOINT("POST", "users", createUser,
+           BODY_DTO(Object<UserDto>, userDto))
+  {
+    return createDtoResponse(Status::CODE_200, m_userService.createUser(userDto));
   }
   
   
-  ENDPOINT_INFO(getUserByLogin) {
-    info->summary = "Get user by Login";
-    info->addResponse<oatpp::Object<UserDto>>(Status::CODE_200, "application/json");
-    info->addResponse<oatpp::Object<ErrorDto>>(Status::CODE_500, "application/json");
+  ENDPOINT_INFO(putUser) {
+    info->summary = "Update User by userId";
+
+    info->addConsumes<Object<UserDto>>("application/json");
+
+    info->addResponse<Object<UserDto>>(Status::CODE_200, "application/json");
+    info->addResponse<Object<StatusDto>>(Status::CODE_404, "application/json");
+    info->addResponse<Object<StatusDto>>(Status::CODE_500, "application/json");
+
+    info->pathParams["userId"].description = "User Identifier";
   }
-  ENDPOINT("GET", "/users/login/{login}", getUserByLogin,
-           PATH(String, login)) {
-    assertLogin(login);
-    auto user = database->getUserByLogin(login);
-    OATPP_ASSERT_HTTP(user, Status::CODE_404, "User not found");
-    return createDtoResponse(Status::CODE_200, user);
+  ENDPOINT("PUT", "users/{userId}", putUser,
+           PATH(String, userId),
+           BODY_DTO(Object<UserDto>, userDto))
+  {
+    userDto->id = userId;
+    return createDtoResponse(Status::CODE_200, m_userService.updateUser(userDto));
+  }
+  
+  
+  ENDPOINT_INFO(getUserById) {
+    info->summary = "Get one User by userId";
+
+    info->addResponse<Object<UserDto>>(Status::CODE_200, "application/json");
+    info->addResponse<Object<StatusDto>>(Status::CODE_404, "application/json");
+    info->addResponse<Object<StatusDto>>(Status::CODE_500, "application/json");
+
+    info->pathParams["userId"].description = "User Identifier";
+  }
+  ENDPOINT("GET", "users/{userId}", getUserById,
+           PATH(String, userId))
+  {
+    return createDtoResponse(Status::CODE_200, m_userService.getUserById(userId));
   }
   
   
-  ENDPOINT_INFO(getUserByEmail) {
-    info->summary = "Get user by Email";
-    info->addResponse<oatpp::Object<UserDto>>(Status::CODE_200, "application/json");
-    info->addResponse<oatpp::Object<ErrorDto>>(Status::CODE_500, "application/json");
+  ENDPOINT_INFO(getUsers) {
+    info->summary = "get all stored users";
+
+    info->addResponse<oatpp::Object<UsersPageDto>>(Status::CODE_200, "application/json");
+    info->addResponse<Object<StatusDto>>(Status::CODE_500, "application/json");
   }
-  ENDPOINT("GET", "/users/email/{email}", getUserByEmail,
-           PATH(String, email)) {
-    assertEmail(email);
-    auto user = database->getUserByEmail(email);
-    OATPP_ASSERT_HTTP(user, Status::CODE_404, "User not found");
-    return createDtoResponse(Status::CODE_200, user);
+  ENDPOINT("GET", "users/offset/{offset}/limit/{limit}", getUsers,
+           PATH(UInt32, offset),
+           PATH(UInt32, limit))
+  {
+    return createDtoResponse(Status::CODE_200, m_userService.getAllUsers(offset, limit));
   }
   
-  // TODO Insert Your endpoints here !!!
+  
+  ENDPOINT_INFO(deleteUser) {
+    info->summary = "Delete User by userId";
+
+    info->addResponse<Object<StatusDto>>(Status::CODE_200, "application/json");
+    info->addResponse<Object<StatusDto>>(Status::CODE_500, "application/json");
+
+    info->pathParams["userId"].description = "User Identifier";
+  }
+  ENDPOINT("DELETE", "users/{userId}", deleteUser,
+           PATH(String, userId))
+  {
+    return createDtoResponse(Status::CODE_200, m_userService.deleteUserById(userId));
+  }
 
 };
 
-#include OATPP_CODEGEN_END(ApiController) //<-- codegen end
+#include OATPP_CODEGEN_BEGIN(ApiController) //<- End Codegen
 
 #endif /* UserController_hpp */

@@ -1,27 +1,22 @@
 
-#include "./controller/UserController.hpp"
-#include "./AppComponent.hpp"
-#include "./ServiceComponent.hpp"
-#include "./SwaggerComponent.hpp"
-
-#include "oatpp/network/Server.hpp"
+#include "controller/UserController.hpp"
+#include "AppComponent.hpp"
+#include "DatabaseComponent.hpp"
+#include "ServiceComponent.hpp"
+#include "SwaggerComponent.hpp"
 
 #include "oatpp-swagger/Controller.hpp"
 
+#include "oatpp/network/Server.hpp"
+
 #include <iostream>
 
-
-/**
- *  run() method.
- *  1) set Environment components.
- *  2) add ApiController's endpoints to router
- *  3) run server
- */
 void run(const oatpp::base::CommandLineArguments& args) {
 
   AppComponent appComponent(args);
   ServiceComponent serviceComponent;
   SwaggerComponent swaggerComponent;
+  DatabaseComponent databaseComponent;
 
   /* create ApiControllers and add endpoints to router */
 
@@ -47,20 +42,11 @@ void run(const oatpp::base::CommandLineArguments& args) {
 
 }
 
-/**
- *  main
- */
 int main(int argc, const char * argv[]) {
 
   oatpp::base::Environment::init();
 
   run(oatpp::base::CommandLineArguments(argc, argv));
-
-  /* Print how much objects were created during app running, and what have left-probably leaked */
-  /* Disable object counting for release builds using '-D OATPP_DISABLE_ENV_OBJECT_COUNTERS' flag for better performance */
-  std::cout << "\nEnvironment:\n";
-  std::cout << "objectsCount = " << oatpp::base::Environment::getObjectsCount() << "\n";
-  std::cout << "objectsCreated = " << oatpp::base::Environment::getObjectsCreated() << "\n\n";
 
   oatpp::base::Environment::destroy();
 

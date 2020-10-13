@@ -10,13 +10,11 @@
 class ConfigDto : public oatpp::DTO {
   
   DTO_INIT(ConfigDto, DTO)
-  
+
+  DTO_FIELD(String, host);
   DTO_FIELD(UInt16, port);
   DTO_FIELD(String, swaggerHost);
-  DTO_FIELD(String, dbHost);
-  DTO_FIELD(String, dbUser);
-  DTO_FIELD(String, dbPass);
-  DTO_FIELD(String, dbName);
+  DTO_FIELD(String, dbConnectionString);
   
 };
 
