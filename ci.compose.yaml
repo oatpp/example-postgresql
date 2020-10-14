@@ -9,8 +9,10 @@ services:
     ports:
       - 5432:5432
 
-  service:
-    build: .
+  test:
+    build:
+      context: .
+      dockerfile: ci.dockerfile
     ports:
       - "8000:8000"
     depends_on:
