@@ -1,10 +1,15 @@
 # example-postgresql [![Build Status](https://dev.azure.com/lganzzzo/lganzzzo/_apis/build/status/oatpp.example-postgresql?branchName=master)](https://dev.azure.com/lganzzzo/lganzzzo/_build/latest?definitionId=17&branchName=master)
 
-Example of a production grade entity service storing information in PostgreSQL. With Swagger-UI and configuration profiles.  
-*Libpq is used to communicate with PostgreSQL database.*  
-*Dockerfile and docker-compose.yaml files included.*
+A complete example of a "CRUD" service (UserService) built with Oat++ and using oatpp ORM with PostgreSQL.
 
-See more:
+
+In this example:
+
+- How to create CRUD endpoints.
+- How to use [oatpp ORM](https://oatpp.io/docs/components/orm/) - PostgreSQL example.
+- How to document API with Swagger-UI and OpenApi 3.0.0.
+
+More about Oat++:
 
 - [Oat++ Website](https://oatpp.io/)
 - [Oat++ Github Repository](https://github.com/oatpp/oatpp)
@@ -12,7 +17,11 @@ See more:
 
 ## Overview
 
-This project is using [oatpp](https://github.com/oatpp/oatpp) and [oatpp-swagger](https://github.com/oatpp/oatpp-swagger) modules.
+This project is using the following oatpp modules:
+
+- [oatpp](https://github.com/oatpp/oatpp) 
+- [oatpp-swagger](https://github.com/oatpp/oatpp-swagger)
+- [oatpp-postgresql](https://github.com/oatpp/oatpp-postgresql)
 
 ### Project layout
 
@@ -21,11 +30,13 @@ This project is using [oatpp](https://github.com/oatpp/oatpp) and [oatpp-swagger
 |- src/
 |    |
 |    |- controller/                      // Folder containing Controller where all endpoints are declared
-|    |- db/                              // Database class is here 
+|    |- db/                              // Folder containing the database client
 |    |- dto/                             // DTOs are declared here
+|    |- service/                         // Service business logic classes (UserService)
 |    |- ServiceComponent.hpp             // Service configuration (port, ObjectMapper, Database)
 |    |- SwaggerComponent.hpp             // Configuration for swagger-ui
 |    |- AppComponent.hpp                 // Service configuration is loaded here
+|    |- DatabaseComponent.hpp            // Database config
 |    |- App.cpp                          // main() is here
 |    
 |- test/                                 // test folder
@@ -43,12 +54,12 @@ This project is using [oatpp](https://github.com/oatpp/oatpp) and [oatpp-swagger
 
 **Requires** 
 
-- libpq installed. To install libpq:  
-   - On Mac `$ brew install libpq`
+- This example also requires the PostgreSQL package installed.
    - On Alpine `$ apk add postgresql-dev`
-   - On Ubuntu - goto [Install PostgreSQL Client From Sources](#install-postgresql-client-from-sources)
+   - On Ubuntu `$ apt-get install postgresql-server-dev-all`
    
-- `oatpp` and `oatpp-swagger` modules installed. You may run `utility/install-oatpp-modules.sh` 
+   For more info see [oatpp-postgresql/README.md](https://github.com/oatpp/oatpp-postgresql/blob/master/README.md)
+- `oatpp`, `oatpp-swagger` and `oatpp-postgresql` modules installed. You may run `utility/install-oatpp-modules.sh` 
 script to install required oatpp modules.   
 
 ```
@@ -81,29 +92,3 @@ $ docker-compose up
 
 Go to [http://localhost:8000/swagger/ui](http://localhost:8000/swagger/ui) to try endpoints.
 
-## Install PostgreSQL Client From Sources
-
-- Download sources from [https://www.postgresql.org/ftp/source/](https://www.postgresql.org/ftp/source/)
-   ```
-   $ wget https://ftp.postgresql.org/pub/source/v11.1/postgresql-11.1.tar.gz
-   ```
-   
-- Untar
-   ```
-   $ tar -xvzf postgresql-11.1.tar.gz
-   ```
-
-- CD to postgresql-11.1, configure, make:
-   ```
-   $ cd postgresql-11.1
-   $ ./configure
-   $ make
-   ```
-- Install PostgreSQL client-only  
-   *For this particular example we don't need full PostgreSQL installation.* 
-   ```
-   $ make -C src/include install 
-   $ make -C src/interfaces install
-   ```
-
-For more information see [PostgreSQL installation guide](https://www.postgresql.org/docs/11/install-procedure.html#INSTALL)
