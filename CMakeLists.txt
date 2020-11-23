@@ -40,7 +40,7 @@ target_link_libraries(${project_name}-lib
 
 add_definitions(
         # Path to swagger-ui resources #
-        -DOATPP_SWAGGER_RES_PATH="${OATPP_BASE_DIR}/bin/oatpp-swagger/res"
+        -DOATPP_SWAGGER_RES_PATH="${oatpp-swagger_INCLUDE_DIRS}/../bin/oatpp-swagger/res"
 
         # Path to config file #
         -DCONFIG_PATH="${CMAKE_CURRENT_LIST_DIR}/resources/config.json"
