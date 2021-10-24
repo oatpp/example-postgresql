@@ -21,15 +21,11 @@ void run(const oatpp::base::CommandLineArguments& args) {
   /* create ApiControllers and add endpoints to router */
 
   auto router = serviceComponent.httpRouter.getObject();
-  auto docEndpoints = oatpp::swagger::Controller::Endpoints::createShared();
+  oatpp::web::server::api::Endpoints docEndpoints;
 
-  auto userController = UserController::createShared();
-  userController->addEndpointsToRouter(router);
+  docEndpoints.append(router->addController(UserController::createShared())->getEndpoints());
 
-  docEndpoints->pushBackAll(userController->getEndpoints()); // Add userController to swagger
-
-  auto swaggerController = oatpp::swagger::Controller::createShared(docEndpoints);
-  swaggerController->addEndpointsToRouter(router);
+  router->addController(oatpp::swagger::Controller::createShared(docEndpoints));
 
   /* create server */
 

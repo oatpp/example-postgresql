@@ -28,7 +28,7 @@ public:
     const char* configPath = CONFIG_PATH;
     auto objectMapper = oatpp::parser::json::mapping::ObjectMapper::createShared();
     
-    oatpp::String configText = oatpp::base::StrBuffer::loadFromFile(configPath);
+    oatpp::String configText = oatpp::String::loadFromFile(configPath);
     if (configText) {
 
       auto profiles = objectMapper->readFromString<oatpp::Fields<oatpp::Object<ConfigDto>>>(configText);
